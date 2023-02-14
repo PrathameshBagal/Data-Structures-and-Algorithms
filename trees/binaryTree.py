@@ -1,3 +1,4 @@
+from collections import deque
 class TreeNode:
     def __init__(self,data) -> None:
         self.data=data
@@ -20,6 +21,22 @@ def preOrderTraversal(rootNode):
 print("PREORDER")
 preOrderTraversal(newBt)
 
+def preOrderIterative(rootNode):
+    curr=rootNode
+    if curr is None:
+        return
+    st=deque()
+    while st or curr:
+        if curr:
+            print(curr.data)
+            if curr.rightChild:
+                st.append(curr.rightChild)
+            curr=curr.leftChild
+        else:
+            curr=st.pop()
+print("PREORDER Iterative")
+preOrderIterative(newBt)
+
 def inOrderTraversal(rootNode):
     if rootNode is None:
         return
@@ -28,6 +45,26 @@ def inOrderTraversal(rootNode):
     inOrderTraversal(rootNode.rightChild)
 print("INORDER")
 inOrderTraversal(newBt)
+
+def inOrderIterative(rootNode):
+    curr=rootNode
+
+    if curr is None:
+        return
+    
+    st= deque()
+
+    while st or curr:
+        if curr:
+            st.append(curr)
+            curr=curr.leftChild
+        else:
+            curr=st.pop()
+            print(curr.data)
+            curr=curr.rightChild
+
+print("inOrderIterative")
+inOrderIterative(newBt)
 
 def postOrderTraversal(rootNode):
     if rootNode is None:
@@ -47,3 +84,24 @@ def leftViewBT(rootNode):
 
 print("LEFT VIEW OF BT")
 leftViewBT(newBt)
+
+
+def levelOrder(rootNode):
+    q=deque()
+    q.append(rootNode)
+    ans=[]
+    while q:
+        row=[]
+        size= len(q)
+        for i in range(size):
+            node=q.popleft()
+            if node.leftChild:
+                q.append(node.leftChild)
+            if node.rightChild:
+                q.append(node.rightChild)
+            row.append(node.data)
+        ans.append(row)
+    return ans
+
+print(levelOrder(newBt))
+
